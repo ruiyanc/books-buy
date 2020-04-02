@@ -1,15 +1,16 @@
 package com.yanrui.api.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     private String uid;
 
     private String username;
 
     private String password;
 
-    private String email;
+    private String address;
 
     private String phone;
 
@@ -19,11 +20,11 @@ public class User {
 
     private Date updateTime;
 
-    public User(String uid, String username, String password, String email, String phone, String role, Date createTime, Date updateTime) {
+    public User(String uid, String username, String password, String address, String phone, String role, Date createTime, Date updateTime) {
         this.uid = uid;
         this.username = username;
         this.password = password;
-        this.email = email;
+        this.address = address;
         this.phone = phone;
         this.role = role;
         this.createTime = createTime;
@@ -31,7 +32,7 @@ public class User {
     }
 
     public User() {
-        super();
+
     }
 
     public String getUid() {
@@ -58,12 +59,12 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getEmail() {
-        return email;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 
     public String getPhone() {

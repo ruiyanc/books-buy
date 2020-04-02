@@ -4,7 +4,7 @@ CREATE TABLE `user` (
   `uid` VARCHAR(20) NOT NULL PRIMARY KEY ,
   `username` varchar(50) NOT NULL COMMENT '用户名',
   `password` varchar(50) NOT NULL COMMENT '用户密码，MD5加密',
-  `email` varchar(50) DEFAULT NULL,
+  `address` varchar(50) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `role` VARCHAR(1) DEFAULT '2' COMMENT '角色0-超级管理员,1-管理员,2-普通用户',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
