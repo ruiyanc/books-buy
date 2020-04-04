@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
         user.setRole("2");
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
-        System.out.println(user.toString());
         return userMapper.insert(user);
     }
 }
