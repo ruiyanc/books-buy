@@ -1,5 +1,9 @@
 package com.yanrui.api.service;
 
+import com.yanrui.api.pojo.Product;
+
+import java.util.List;
+
 /**
  * @author: yanrui
  * @description
@@ -7,4 +11,5 @@ package com.yanrui.api.service;
  */
 public interface HelloService {
     String sayHello(String name);
+
 }

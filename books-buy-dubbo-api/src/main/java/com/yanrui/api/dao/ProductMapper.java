@@ -2,6 +2,9 @@ package com.yanrui.api.dao;
 
 import com.yanrui.api.pojo.Product;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +17,6 @@ public interface ProductMapper {
     int updateByPrimaryKeySelective(Product record);
 
     int updateByPrimaryKey(Product record);
+
+    List<Map<String,Object>> findAllProduct();
 }

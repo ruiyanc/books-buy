@@ -8,8 +8,7 @@
       <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="author" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="subtitle" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="main_image" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="sub_images" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="image" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="original_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="discount_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
@@ -20,7 +19,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, category_id, name, author, subtitle,detail, main_image, sub_images, original_price, discount_price, stock, status,
+    id, category_id, name, author, subtitle,detail, image, original_price, discount_price, stock, status,
     create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -35,12 +34,12 @@
   </delete>
   <insert id="insert" parameterType="com.yanrui.api.pojo.Product">
     insert into product (id, category_id, name, author,
-      subtitle, main_image, sub_images, 
+      subtitle, image,
       detail, original_price, discount_price, stock,
       status, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR}
-      #{subtitle,jdbcType=VARCHAR}, #{mainImage,jdbcType=VARCHAR}, #{subImages,jdbcType=VARCHAR}, 
+      #{subtitle,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR},
       #{detail,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL},#{discountPrice,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER},
       #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
@@ -60,17 +59,17 @@
       <if test="subtitle != null">
         subtitle,
       </if>
-      <if test="mainImage != null">
-        main_image,
-      </if>
-      <if test="subImages != null">
-        sub_images,
+      <if test="image != null">
+        image,
       </if>
       <if test="detail != null">
         detail,
       </if>
-      <if test="price != null">
-        price,
+      <if test="originalPrice != null">
+        original_price,
+      </if>
+      <if test="discountPrice != null">
+        discount_price,
       </if>
       <if test="stock != null">
         stock,
@@ -98,17 +97,17 @@
       <if test="subtitle != null">
         #{subtitle,jdbcType=VARCHAR},
       </if>
-      <if test="mainImage != null">
-        #{mainImage,jdbcType=VARCHAR},
-      </if>
-      <if test="subImages != null">
-        #{subImages,jdbcType=VARCHAR},
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
       </if>
       <if test="detail != null">
         #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
+      <if test="originalPrice != null">
+        #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null">
+        #{discountPrice,jdbcType=DECIMAL},
       </if>
       <if test="stock != null">
         #{stock,jdbcType=INTEGER},
@@ -136,17 +135,17 @@
       <if test="subtitle != null">
         subtitle = #{subtitle,jdbcType=VARCHAR},
       </if>
-      <if test="mainImage != null">
-        main_image = #{mainImage,jdbcType=VARCHAR},
-      </if>
-      <if test="subImages != null">
-        sub_images = #{subImages,jdbcType=VARCHAR},
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
       </if>
       <if test="detail != null">
         detail = #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
+      <if test="originalPrice != null">
+        original_price = #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null">
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
       </if>
       <if test="stock != null">
         stock = #{stock,jdbcType=INTEGER},
@@ -168,14 +167,19 @@
     set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       subtitle = #{subtitle,jdbcType=VARCHAR},
-      main_image = #{mainImage,jdbcType=VARCHAR},
-      sub_images = #{subImages,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      discount_price = #{discountPrice,jdbcType=DECIMAL},
       stock = #{stock,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="findAllProduct" resultType="map">
+    select category.name as category, product.name, product.author, product.subtitle, product.image, product.detail, product.original_price, product.discount_price, product.stock, product.status, product.create_time, product.update_time
+    from product,category
+    where product.category_id = category.id
+  </select>
 </mapper>

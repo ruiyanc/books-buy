@@ -17,9 +17,7 @@ public class Product {
 
     private String subtitle;
 
-    private String mainImage;
-
-    private String subImages;
+    private String image;
 
     private String detail;
 
