@@ -116,4 +116,9 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="findAllCategory" resultType="com.yanrui.api.pojo.Category">
+    select
+    <include refid="Base_Column_List" />
+    from category
+  </select>
 </mapper>

@@ -33,14 +33,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yanrui.api.pojo.Product">
-    insert into product (id, category_id, name, author,
-      subtitle, image,
+    insert into product (id, category_id, name, author, subtitle, image,
       detail, original_price, discount_price, stock,
-      status, create_time, update_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR}
-      #{subtitle,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR},
-      #{detail,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL},#{discountPrice,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER},
+      status, create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},
+      #{subtitle,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR},#{detail,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL},
+            #{discountPrice,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER},
       #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -178,8 +176,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findAllProduct" resultType="map">
-    select category.name as category, product.name, product.author, product.subtitle, product.image, product.detail, product.original_price, product.discount_price, product.stock, product.status, product.create_time, product.update_time
-    from product,category
+    select category.name as category, product.name, product.author, product.subtitle,
+           product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,
+           product.stock, product.status, product.create_time as createTime, product.update_time as updateTime
+    from product, category
     where product.category_id = category.id
   </select>
 </mapper>

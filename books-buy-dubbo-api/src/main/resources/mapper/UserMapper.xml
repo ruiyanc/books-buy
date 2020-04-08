@@ -82,7 +82,7 @@
       and User = #{user,jdbcType=CHAR}
   </delete>
   <select id="queryUserByUsernameOrPhone" parameterType="string" resultType="com.yanrui.api.pojo.User">
-    select uid,username,phone,password,address,role,create_time,update_time
+    select uid,username,phone,password,address,role,create_time as createTime,update_time as updateTime
     from user
     where username=#{usernameOrPhone}
     or phone=#{usernameOrPhone}

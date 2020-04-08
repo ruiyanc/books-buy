@@ -2,6 +2,9 @@ package com.yanrui.api.dao;
 
 import com.yanrui.api.pojo.Category;
 
+import java.util.List;
+import java.util.Map;
+
 public interface CategoryMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +17,6 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    List<Category> findAllCategory();
 }
