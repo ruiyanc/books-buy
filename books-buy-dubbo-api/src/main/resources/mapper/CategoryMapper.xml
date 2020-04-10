@@ -121,4 +121,10 @@
     <include refid="Base_Column_List" />
     from category
   </select>
+    <select id="selectByName" parameterType="string" resultType="com.yanrui.api.pojo.Category">
+      select
+        <include refid="Base_Column_List" />
+      from category
+      where name=#{name,jdbcType=VARCHAR}
+    </select>
 </mapper>

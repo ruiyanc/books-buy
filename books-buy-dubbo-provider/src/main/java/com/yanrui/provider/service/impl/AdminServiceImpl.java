@@ -1,13 +1,19 @@
 package com.yanrui.provider.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.yanrui.api.dao.CategoryMapper;
 import com.yanrui.api.dao.ProductMapper;
+import com.yanrui.api.pojo.Category;
 import com.yanrui.api.pojo.Product;
 import com.yanrui.api.service.AdminService;
+import com.yanrui.api.utils.BeansUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +30,20 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @Override
     public List<Map<String, Object>> findAllProduct() {
         List<Map<String, Object>> list = productMapper.findAllProduct();
         return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> findAllProductPage(Map<String,Object> map) {
+//        List<Map<String, Object>> list = productMapper.findAllProductPage();
+//        return list;
+        return null;
     }
 
     @Override
@@ -48,6 +63,36 @@ public class AdminServiceImpl implements AdminService {
         product.setUpdateTime(new Date());
         System.out.println(product.toString());
         int i = productMapper.insert(product);
+        return i;
+    }
+
+    @Override
+    public int updateProduct(Map<String, Object> map) {
+        Product product = new Product();
+        System.out.println(map);
+        BeansUtil.populate(product, map);
+        Category category = categoryMapper.selectByName(map.get("category").toString());
+        product.setCategoryId(category.getId());
+        product.setUpdateTime(new Date());
+        System.out.println(product.toString());
+        int i = productMapper.updateByPrimaryKey(product);
+        System.out.println(i);
+        return i;
+    }
+
+    @Override
+    public int upOrDown(Map<String, Object> map) {
+        Product product = new Product();
+        String status = map.get("status").toString();
+        Integer id = Integer.valueOf(map.get("id").toString());
+        product.setId(id);
+        String up = "1";
+        if (up.equals(status)) {
+            product.setStatus("2");
+        } else {
+            product.setStatus(up);
+        }
+        int i = productMapper.updateByPrimaryKeySelective(product);
         return i;
     }
 }

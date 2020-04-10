@@ -19,4 +19,6 @@ public interface ProductMapper {
     int updateByPrimaryKey(Product record);
 
     List<Map<String,Object>> findAllProduct();
+
+    List<Map<String,Object>> findAllProductPage(Integer id, Integer size);
 }

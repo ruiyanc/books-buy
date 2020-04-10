@@ -176,10 +176,20 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findAllProduct" resultType="map">
-    select category.name as category, product.name, product.author, product.subtitle,
+    select product.id as id, category.name as category, product.name, product.author, product.subtitle,
            product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,
            product.stock, product.status, product.create_time as createTime, product.update_time as updateTime
     from product, category
     where product.category_id = category.id
+  </select>
+  <select id="findAllProductPage" parameterType="integer" resultType="map">
+    select product.id as id, category.name as category, product.name, product.author, product.subtitle,
+           product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,
+           product.stock, product.status, product.create_time as createTime, product.update_time as updateTime
+    from product, category
+    where product.category_id = category.id
+    and id > #{param1,jdbcType=INTEGER}
+    ORDER BY id ASC
+    limit #{param2,jdbcType=INTEGER}
   </select>
 </mapper>

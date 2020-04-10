@@ -9,5 +9,11 @@ public interface AdminService {
 
     List<Map<String, Object>> findAllProduct();
 
+    List<Map<String, Object>> findAllProductPage(Map<String, Object> map);
+
     int insertProduct(Map<String,Object> map);
+
+    int updateProduct(Map<String, Object> map);
+
+    int upOrDown(Map<String, Object> map);
 }

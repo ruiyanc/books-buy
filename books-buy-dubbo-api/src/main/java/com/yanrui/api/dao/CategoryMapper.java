@@ -19,4 +19,6 @@ public interface CategoryMapper {
     int updateByPrimaryKey(Category record);
 
     List<Category> findAllCategory();
+
+    Category selectByName(String name);
 }

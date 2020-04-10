@@ -37,7 +37,7 @@ public class UserController {
         User user = userService.findUsernameOrPhone(phoneOrUsername);
         if (user != null) {
             if (!Objects.equals(user.getPassword(), password)) {
-                String message = "账号不存在或密码错误";
+                String message = ResultEnum.LOGIN_FAIL.getMessage();
                 System.out.println(message);
                 log.error("登录错误,{}", message);
                 hashMap.put("message", message);
@@ -48,7 +48,7 @@ public class UserController {
                 hashMap.put("user", user);
             }
         } else {
-            String message = "账号不存在或密码错误";
+            String message = ResultEnum.LOGIN_FAIL.getMessage();
             System.out.println(message);
             log.error("登录错误,{}", message);
             hashMap.put("message", message);
