@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,5 +40,24 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
         return userMapper.insert(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userMapper.findAll();
+    }
+
+    @Override
+    public int updateUserByRole(Map<String, Object> map) {
+        String uid = map.get("uid").toString();
+        String role = map.get("role").toString();
+        User user = new User();
+        user.setUid(uid);
+        if ("1".equals(role)) {
+            user.setRole("2");
+        } else {
+            user.setRole("1");
+        }
+        return userMapper.updateBySelective(user);
     }
 }

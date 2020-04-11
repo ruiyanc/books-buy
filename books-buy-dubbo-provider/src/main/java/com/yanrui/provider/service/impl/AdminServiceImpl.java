@@ -5,6 +5,7 @@ import com.yanrui.api.dao.CategoryMapper;
 import com.yanrui.api.dao.ProductMapper;
 import com.yanrui.api.pojo.Category;
 import com.yanrui.api.pojo.Product;
+import com.yanrui.api.pojo.User;
 import com.yanrui.api.service.AdminService;
 import com.yanrui.api.utils.BeansUtil;
 import org.apache.commons.beanutils.BeanUtils;
@@ -95,4 +96,5 @@ public class AdminServiceImpl implements AdminService {
         int i = productMapper.updateByPrimaryKeySelective(product);
         return i;
     }
+
 }

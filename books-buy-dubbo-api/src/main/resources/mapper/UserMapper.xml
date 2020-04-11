@@ -13,6 +13,9 @@
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
+  <sql id="Base_Column_List">
+     uid,username,phone,password,address,role,create_time as createTime,update_time as updateTime
+  </sql>
   <insert id="insert" parameterType="com.yanrui.api.pojo.User">
     insert into user (uid, username, password, 
       address, phone, role,
@@ -76,15 +79,41 @@
       </if>
     </trim>
   </insert>
-  <delete id="deleteByPrimaryKey" parameterType="com.yanrui.api.pojo.UserKey">
-    delete from user
-    where Host = #{host,jdbcType=CHAR}
-      and User = #{user,jdbcType=CHAR}
-  </delete>
   <select id="queryUserByUsernameOrPhone" parameterType="string" resultType="com.yanrui.api.pojo.User">
-    select uid,username,phone,password,address,role,create_time as createTime,update_time as updateTime
+    select <include refid="Base_Column_List" />
     from user
     where username=#{usernameOrPhone}
     or phone=#{usernameOrPhone}
   </select>
+  <select id="findAll" resultType="com.yanrui.api.pojo.User">
+    select <include refid="Base_Column_List" />
+    from user
+  </select>
+  <update id="updateBySelective" parameterType="com.yanrui.api.pojo.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
 </mapper>

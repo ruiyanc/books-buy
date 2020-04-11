@@ -3,7 +3,9 @@ package com.yanrui.comsumer.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yanrui.api.enums.ResultEnum;
 import com.yanrui.api.pojo.Product;
+import com.yanrui.api.pojo.User;
 import com.yanrui.api.service.AdminService;
+import com.yanrui.api.service.UserService;
 import com.yanrui.api.utils.StringToDateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -31,19 +33,30 @@ public class AdminController {
 
     @Reference(version = "1.0.0")
     private AdminService adminService;
+    @Reference(version = "1.0.0")
+    private UserService userService;
 
     @CrossOrigin
-    @GetMapping(value = "adminFindAllProduct")
-    public List<Map<String, Object>> adminFindAllProduct() {
-        List<Map<String, Object>> list = adminService.findAllProduct();
-        log.info("查询所有商品成功,{}", list);
+    @GetMapping(value = "adminFindAllUser")
+    public List<User> adminFindAllUser() {
+        List<User> list = userService.findAll();
+        log.info("查询所有用户成功,{}", list);
         return list;
     }
 
     @CrossOrigin
-    @GetMapping(value = "adminFindAllProductPage")
-    public List<Map<String, Object>> adminFindAllProductPage(@RequestBody Map<String, Object> map) {
+    @PostMapping(value = "adminUpdateUser")
+    public Map<String, Object> adminUpdateUser(@RequestBody Map<String,Object> map) {
         System.out.println(map);
+        Map<String,Object> userMap = (Map<String, Object>) map.get("user");
+        Map<String, Object> hashMap = new HashMap<>();
+        int i = userService.updateUserByRole(userMap);
+        return getStringObjectMap(hashMap, i);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "adminFindAllProduct")
+    public List<Map<String, Object>> adminFindAllProduct() {
         List<Map<String, Object>> list = adminService.findAllProduct();
         log.info("查询所有商品成功,{}", list);
         return list;
