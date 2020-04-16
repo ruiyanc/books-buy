@@ -19,8 +19,9 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, category_id, name, author, subtitle,detail, image, original_price, discount_price, stock, status,
-    create_time, update_time
+    id, category_id as categoryId, name, author, subtitle,detail, image,
+    original_price as originalPrice, discount_price as discountPrice,
+    stock, status,create_time as createTime, update_time as updateTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -182,14 +183,30 @@
     from product, category
     where product.category_id = category.id
   </select>
-  <select id="findAllProductPage" parameterType="integer" resultType="map">
+  <select id="findAllProductByCategory" resultType="map" parameterType="string">
     select product.id as id, category.name as category, product.name, product.author, product.subtitle,
            product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,
            product.stock, product.status, product.create_time as createTime, product.update_time as updateTime
     from product, category
     where product.category_id = category.id
-    and id > #{param1,jdbcType=INTEGER}
-    ORDER BY id ASC
-    limit #{param2,jdbcType=INTEGER}
+    and category.name=#{category,jdbcType=VARCHAR}
   </select>
+  <select id="findAllProductSpice" parameterType="string" resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where status=#{status,jdbcType=VARCHAR}
+    order by (discount_price / original_price)
+  </select>
+
+  <!--  <select id="findAllProductPage" parameterType="integer" resultType="map">-->
+<!--    select product.id as id, category.name as category, product.name, product.author, product.subtitle,-->
+<!--           product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,-->
+<!--           product.stock, product.status, product.create_time as createTime, product.update_time as updateTime-->
+<!--    from product, category-->
+<!--    where product.category_id = category.id-->
+<!--    and id > #{param1,jdbcType=INTEGER}-->
+<!--    ORDER BY id ASC-->
+<!--    limit #{param2,jdbcType=INTEGER}-->
+<!--  </select>-->
 </mapper>

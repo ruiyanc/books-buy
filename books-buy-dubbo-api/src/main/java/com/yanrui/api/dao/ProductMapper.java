@@ -20,5 +20,9 @@ public interface ProductMapper {
 
     List<Map<String,Object>> findAllProduct();
 
-    List<Map<String,Object>> findAllProductPage(Integer id, Integer size);
+//    按打折的升序排列
+    List<Map<String,Object>> findAllProductSpice(String status);
+
+    List<Map<String,Object>> findAllProductByCategory(String category);
+
 }
