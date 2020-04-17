@@ -2,11 +2,12 @@ package com.yanrui.api.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class Product {
+public class Product implements Serializable {
     private Integer id;
 
     private Integer categoryId;

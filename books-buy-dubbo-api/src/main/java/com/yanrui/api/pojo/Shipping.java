@@ -1,8 +1,9 @@
 package com.yanrui.api.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Shipping {
+public class Shipping implements Serializable {
     private Integer id;
 
     private String uid;

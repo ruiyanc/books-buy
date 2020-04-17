@@ -2,6 +2,7 @@ package com.yanrui.api.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @create: 2020-04-04 17:51
  **/
 @Data
-public class Collect {
+public class Collect implements Serializable {
 
     private Integer collectId;
 
