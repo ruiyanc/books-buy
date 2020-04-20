@@ -8,11 +8,11 @@ public interface CollectMapper {
 
     int deleteByPrimaryKey(Integer collectId);
 
+    Collect selectByPrimaryKey(Integer id);
+
     int deleteByUidAndProductId(String uid, Integer productId);
 
     Collect selectByUidAndProductId(Integer productId, String uid);
-
-    Collect selectByPrimaryKey(Integer id);
 
     int findCountsByProductId(Integer productId);
 }

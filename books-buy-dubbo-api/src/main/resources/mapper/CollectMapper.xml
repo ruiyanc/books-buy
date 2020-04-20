@@ -106,7 +106,7 @@
     <select id="selectByUidAndProductId" parameterType="map" resultType="com.yanrui.api.pojo.Collect">
         select <include refid="Base_Column_List"/>
         from collect
-        where product_id=#{param1,jdbcType=VARCHAR}
+        where product_id=#{param1,jdbcType=INTEGER}
         and uid=#{param2,jdbcType=VARCHAR}
 
     </select>

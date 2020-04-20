@@ -13,7 +13,8 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    comment_id,uid,product_id,comment_info,score,create_time,update_time
+    comment_id as commentId,uid,product_id as productId,
+    comment_info as commentInfo,score,create_time as createTime,update_time as updateTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -115,4 +116,21 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
+  <select id="findCommentAndUserByProductId" parameterType="integer" resultType="map">
+    select comment_id as commentId, comment.uid as uid, username, product_id as productId,
+           comment_info as commentInfo, score, comment.create_time as createTime, comment.update_time as updateTime
+    from comment, user
+    where comment.uid=user.uid
+    and product_id=#{productId,jdbcType=INTEGER}
+  </select>
+  <select id="findAvgCommentsByProductId" resultType="double">
+    select avg(score) as rate
+    from comment
+    where product_id=#{productId,jdbcType=INTEGER}
+  </select>
+  <select id="findCommentsByProductId" resultType="int">
+    select count(*) as comments
+    from comment
+    where product_id=#{productId,jdbcType=INTEGER}
+  </select>
 </mapper>

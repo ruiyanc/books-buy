@@ -197,6 +197,7 @@
     from product
     where status=#{status,jdbcType=VARCHAR}
     order by (discount_price / original_price)
+    limit 12
   </select>
 
   <!--  <select id="findAllProductPage" parameterType="integer" resultType="map">-->

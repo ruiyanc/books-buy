@@ -54,6 +54,7 @@ public class AdminController {
         return getStringObjectMap(hashMap, i);
     }
 
+//    管理员查询所有商品
     @CrossOrigin
     @GetMapping(value = "adminFindAllProduct")
     public List<Map<String, Object>> adminFindAllProduct() {

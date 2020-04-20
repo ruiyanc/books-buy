@@ -46,9 +46,6 @@ public class CollectServiceImpl implements CollectService {
 
     @Override
     public Collect findCollectByUidAndProductId(Integer productId ,String uid) {
-        if (uid == null) {
-            return null;
-        }
         return collectMapper.selectByUidAndProductId(productId, uid);
     }
 }

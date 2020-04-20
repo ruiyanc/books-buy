@@ -1,8 +1,10 @@
 package com.yanrui.comsumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.google.common.base.Strings;
 import com.yanrui.api.pojo.Collect;
 import com.yanrui.api.service.CollectService;
+import com.yanrui.api.service.CommentService;
 import com.yanrui.api.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,9 @@ public class ProductController {
 
     @Reference(version = "1.0.0")
     private CollectService collectService;
+
+    @Reference(version = "1.0.0")
+    private CommentService commentService;
 
     @CrossOrigin
     @GetMapping(value = "findAllProductSpice")
@@ -62,13 +67,31 @@ public class ProductController {
         Integer productId = Integer.valueOf(map.get("productId").toString());
         String uid = map.get("uid").toString();
         int collectCounts = collectService.findCountByProductId(productId);
-        System.out.println(collectCounts);
-        Collect collect = collectService.findCollectByUidAndProductId(productId, uid);
-        System.out.println(collect.toString());
+        Collect collect = null;
+        if (!Strings.isNullOrEmpty(uid)) {
+            collect = collectService.findCollectByUidAndProductId(productId, uid);
+        }
         hashMap.put("code", 200);
         hashMap.put("collect", collect);
         hashMap.put("collectCounts", collectCounts);
         log.info("此商品收藏的人数为{}", collectCounts);
+        return hashMap;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "findCommentByProductId")
+    public Map<String, Object> findCommentByProductId(@RequestBody Map<String,Object> map) {
+        Integer productId = Integer.valueOf(map.get("productId").toString());
+        Map<String, Object> hashMap = new HashMap<>();
+        Double avgRate = commentService.avgCommentsByProductId(productId);
+        List<Map<String, Object>> commentData = commentService.findCommentsByProductId(productId);
+        int comments = commentService.totalCommentsByProductId(productId);
+        log.info("此商品平均评分为{}", avgRate);
+        log.info("此商品评论人数为{}", comments);
+        hashMap.put("code", 200);
+        hashMap.put("comments", comments);
+        hashMap.put("commentData", commentData);
+        hashMap.put("avgRate", avgRate);
         return hashMap;
     }
 }
