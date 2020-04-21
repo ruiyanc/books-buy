@@ -23,6 +23,8 @@ public interface ProductMapper {
 //    按打折的升序排列
     List<Map<String,Object>> findAllProductSpice(String status);
 
-    List<Map<String,Object>> findAllProductByCategory(String category);
+//    查询按类别分类的所有商品
+    List<Map<String,Object>> findAllProductByCategory(String status, String category);
 
+    List<Map<String,Object>> findProductByNewTime(String status);
 }

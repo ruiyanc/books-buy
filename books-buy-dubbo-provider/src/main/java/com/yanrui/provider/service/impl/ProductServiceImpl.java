@@ -26,4 +26,14 @@ public class ProductServiceImpl implements ProductService {
     public List<Map<String, Object>> findAllProductSpice() {
         return productMapper.findAllProductSpice(UP);
     }
+
+    @Override
+    public List<Map<String, Object>> findProductsByCategory(String category) {
+        return productMapper.findAllProductByCategory(UP, category);
+    }
+
+    @Override
+    public List<Map<String, Object>> findProductByNewTime() {
+        return productMapper.findProductByNewTime(UP);
+    }
 }

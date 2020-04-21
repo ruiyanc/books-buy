@@ -7,6 +7,10 @@ import com.yanrui.api.service.CollectService;
 import com.yanrui.api.service.CommentService;
 import com.yanrui.api.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,6 +26,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping(value = "api")
+@CacheConfig(cacheNames = "product")
 public class ProductController {
 
     @Reference(version = "1.0.0")
@@ -35,6 +40,7 @@ public class ProductController {
 
     @CrossOrigin
     @GetMapping(value = "findAllProductSpice")
+    @Cacheable(key = "123")
     public List<Map<String, Object>> findAllProductSpice() {
         List<Map<String, Object>> list = productService.findAllProductSpice();
         log.info("查询所有在售商品并按打折排序成功,{}", list);
@@ -43,6 +49,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "addOrDeleteCollectByProductId")
+    @CacheEvict(key = "123")
     public Map<String, Object> addOrDeleteCollectByProductId(@RequestBody Map<String, Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -61,6 +68,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "findCollectByProductId")
+    @CacheEvict(key = "123")
     public Map<String, Object> findCollectByProductId(@RequestBody Map<String,Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -80,6 +88,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "findCommentByProductId")
+    @CacheEvict(key = "123")
     public Map<String, Object> findCommentByProductId(@RequestBody Map<String,Object> map) {
         Integer productId = Integer.valueOf(map.get("productId").toString());
         Map<String, Object> hashMap = new HashMap<>();
@@ -92,6 +101,24 @@ public class ProductController {
         hashMap.put("comments", comments);
         hashMap.put("commentData", commentData);
         hashMap.put("avgRate", avgRate);
+        return hashMap;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "findProductByLabel")
+    public Map<String, Object> findProductByLabel(@RequestBody Map<String, Object> map) {
+        String name = map.get("name").toString();
+        Map<String, Object> hashMap = new HashMap<>();
+        List<Map<String, Object>> list;
+        if (name.equals("0")) {
+            list = productService.findProductByNewTime();
+        } else {
+            String label = map.get("label").toString();
+            list = productService.findProductsByCategory(label);
+        }
+        log.info("按条件查询的商品为{}", list);
+        hashMap.put("code", 200);
+        hashMap.put("labelData", list);
         return hashMap;
     }
 }

@@ -8,6 +8,9 @@ import com.yanrui.api.service.AdminService;
 import com.yanrui.api.service.UserService;
 import com.yanrui.api.utils.StringToDateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -57,6 +60,7 @@ public class AdminController {
 //    管理员查询所有商品
     @CrossOrigin
     @GetMapping(value = "adminFindAllProduct")
+    @Cacheable(cacheNames = "adminProduct", key = "1")
     public List<Map<String, Object>> adminFindAllProduct() {
         List<Map<String, Object>> list = adminService.findAllProduct();
         log.info("查询所有商品成功,{}", list);
@@ -65,6 +69,7 @@ public class AdminController {
 
     @CrossOrigin
     @PostMapping(value = "adminInsertProduct")
+    @CacheEvict(cacheNames = "adminProduct", key = "1")
     public Map<String, Object> adminInsertProduct(@RequestBody Map<String,Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -74,6 +79,7 @@ public class AdminController {
 
     @CrossOrigin
     @PostMapping(value = "adminUpdateProduct")
+    @CacheEvict(cacheNames = "adminProduct", key = "1")
     public Map<String, Object> adminUpdateProduct(@RequestBody Map<String, Object> map) {
         Map<String,Object> productFormInfo = (Map<String, Object>) map.get("productFormInfo");
         Map<String, Object> hashMap = new HashMap<>();
@@ -84,6 +90,7 @@ public class AdminController {
 
     @CrossOrigin
     @PostMapping(value = "adminUpOrDown")
+    @CacheEvict(cacheNames = "adminProduct", key = "1")
     public Map<String, Object> adminUpOrDown(@RequestBody Map<String, Object> map) {
         Map<String,Object> productFormInfo = (Map<String, Object>) map.get("productFormInfo");
         Map<String, Object> hashMap = new HashMap<>();
