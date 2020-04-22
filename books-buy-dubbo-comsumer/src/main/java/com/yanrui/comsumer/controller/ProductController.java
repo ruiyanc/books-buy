@@ -3,6 +3,7 @@ package com.yanrui.comsumer.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.base.Strings;
 import com.yanrui.api.pojo.Collect;
+import com.yanrui.api.service.CartService;
 import com.yanrui.api.service.CollectService;
 import com.yanrui.api.service.CommentService;
 import com.yanrui.api.service.ProductService;
@@ -26,7 +27,6 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping(value = "api")
-@CacheConfig(cacheNames = "product")
 public class ProductController {
 
     @Reference(version = "1.0.0")
@@ -40,7 +40,6 @@ public class ProductController {
 
     @CrossOrigin
     @GetMapping(value = "findAllProductSpice")
-    @Cacheable(key = "123")
     public List<Map<String, Object>> findAllProductSpice() {
         List<Map<String, Object>> list = productService.findAllProductSpice();
         log.info("查询所有在售商品并按打折排序成功,{}", list);
@@ -49,7 +48,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "addOrDeleteCollectByProductId")
-    @CacheEvict(key = "123")
+    @CacheEvict(value = "collect",key = "#map.get('productId')")
     public Map<String, Object> addOrDeleteCollectByProductId(@RequestBody Map<String, Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -68,7 +67,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "findCollectByProductId")
-    @CacheEvict(key = "123")
+    @Cacheable(value = "collect",key = "#map.get('productId')")
     public Map<String, Object> findCollectByProductId(@RequestBody Map<String,Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -88,7 +87,6 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "findCommentByProductId")
-    @CacheEvict(key = "123")
     public Map<String, Object> findCommentByProductId(@RequestBody Map<String,Object> map) {
         Integer productId = Integer.valueOf(map.get("productId").toString());
         Map<String, Object> hashMap = new HashMap<>();
@@ -104,6 +102,7 @@ public class ProductController {
         return hashMap;
     }
 
+/**   普通用户根据条件查询在售商品*/
     @CrossOrigin
     @PostMapping(value = "findProductByLabel")
     public Map<String, Object> findProductByLabel(@RequestBody Map<String, Object> map) {
@@ -121,4 +120,5 @@ public class ProductController {
         hashMap.put("labelData", list);
         return hashMap;
     }
+
 }
