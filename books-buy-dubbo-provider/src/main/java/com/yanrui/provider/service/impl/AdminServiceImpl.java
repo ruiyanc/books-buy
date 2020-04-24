@@ -36,8 +36,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Map<String, Object>> findAllProduct() {
-        List<Map<String, Object>> list = productMapper.findAllProduct();
-        return list;
+        return productMapper.findAllProduct();
     }
 
     @Override
@@ -63,8 +62,7 @@ public class AdminServiceImpl implements AdminService {
         product.setCreateTime(new Date());
         product.setUpdateTime(new Date());
         System.out.println(product.toString());
-        int i = productMapper.insert(product);
-        return i;
+        return productMapper.insert(product);
     }
 
     @Override
@@ -76,9 +74,7 @@ public class AdminServiceImpl implements AdminService {
         product.setCategoryId(category.getId());
         product.setUpdateTime(new Date());
         System.out.println(product.toString());
-        int i = productMapper.updateByPrimaryKey(product);
-        System.out.println(i);
-        return i;
+        return productMapper.updateByPrimaryKey(product);
     }
 
     @Override
@@ -93,8 +89,7 @@ public class AdminServiceImpl implements AdminService {
         } else {
             product.setStatus(up);
         }
-        int i = productMapper.updateByPrimaryKeySelective(product);
-        return i;
+        return productMapper.updateByPrimaryKeySelective(product);
     }
 
 }

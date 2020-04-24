@@ -19,4 +19,5 @@ public interface CartMapper {
     int updateByPrimaryKey(Cart record);
 
     List<Map<String, Object>> findProductByUid(String uid);
+
 }

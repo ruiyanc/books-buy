@@ -106,7 +106,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findProductByUid" parameterType="string" resultType="map">
-    select product.id as productId,uid as uid, name,author,subtitle,image,detail,quantity,
+    select cart.id as cartId, product.id as productId,uid as uid, name,author,subtitle,image,detail,quantity,cart.create_time as createTime,
       original_price as originalPrice, discount_price as discountPrice, stock, discount_price*quantity as goodTotal
     from cart, product
     where cart.product_id=product.id

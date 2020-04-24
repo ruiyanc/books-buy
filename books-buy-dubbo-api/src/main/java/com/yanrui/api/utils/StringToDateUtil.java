@@ -14,8 +14,6 @@ public class StringToDateUtil {
         String replace = s.replace("T", " ");
         String regEx = "\\..*";
         Pattern pattern = Pattern.compile(regEx);
-        String date = pattern.matcher(replace).replaceAll("");
-        System.out.println(date);
-        return date;
+        return pattern.matcher(replace).replaceAll("");
     }
 }

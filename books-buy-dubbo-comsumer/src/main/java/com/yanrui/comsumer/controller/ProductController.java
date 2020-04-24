@@ -48,7 +48,6 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "addOrDeleteCollectByProductId")
-    @CacheEvict(value = "collect",key = "#map.get('productId')")
     public Map<String, Object> addOrDeleteCollectByProductId(@RequestBody Map<String, Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -67,7 +66,6 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "findCollectByProductId")
-    @Cacheable(value = "collect",key = "#map.get('productId')")
     public Map<String, Object> findCollectByProductId(@RequestBody Map<String,Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();

@@ -41,4 +41,9 @@ public class CartServiceImpl implements CartService {
     public List<Map<String, Object>> findCartByUid(String uid) {
         return cartMapper.findProductByUid(uid);
     }
+
+    @Override
+    public int delCartByPrimaryKey(Integer id) {
+        return cartMapper.deleteByPrimaryKey(id);
+    }
 }

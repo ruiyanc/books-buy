@@ -54,4 +54,22 @@ public class CartController {
         }
         return hashMap;
     }
+
+//    购物车删除商品
+    @CrossOrigin
+    @PostMapping(value = "delProductToCart")
+    public Map<String, Object> delProductToCart(@RequestBody Map<String, Object> map) {
+        Map<String, Object> hashMap = new HashMap<>();
+        Map<String,Object> cartMap = (Map<String, Object>) map.get("cart");
+        System.out.println(cartMap);
+        Integer cartId = Integer.valueOf(cartMap.get("cartId").toString());
+        int i = cartService.delCartByPrimaryKey(cartId);
+        if (i > 0) {
+            log.info("购物车删除的商品为{}", cartMap);
+            hashMap.put("code", 200);
+        } else {
+            hashMap.put("code", 400);
+        }
+        return hashMap;
+    }
 }

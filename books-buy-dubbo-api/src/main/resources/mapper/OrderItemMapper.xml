@@ -5,7 +5,7 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="uid" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="order_no" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="product_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="product_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="product_image" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -35,7 +35,7 @@
       product_id, product_name, product_image, 
       current_unit_price, quantity, total_price, 
       create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{orderNo,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
       #{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{productImage,jdbcType=VARCHAR}, 
       #{currentUnitPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
@@ -85,7 +85,7 @@
         #{uid,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null">
-        #{orderNo,jdbcType=BIGINT},
+        #{orderNo,jdbcType=VARCHAR},
       </if>
       <if test="productId != null">
         #{productId,jdbcType=INTEGER},
@@ -120,7 +120,7 @@
         uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null">
-        order_no = #{orderNo,jdbcType=BIGINT},
+        order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
       <if test="productId != null">
         product_id = #{productId,jdbcType=INTEGER},
@@ -152,7 +152,7 @@
   <update id="updateByPrimaryKey" parameterType="com.yanrui.api.pojo.OrderItem">
     update order_item
     set uid = #{uid,jdbcType=VARCHAR},
-      order_no = #{orderNo,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=INTEGER},
       product_name = #{productName,jdbcType=VARCHAR},
       product_image = #{productImage,jdbcType=VARCHAR},
