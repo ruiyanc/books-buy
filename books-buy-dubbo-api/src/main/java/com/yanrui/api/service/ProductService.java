@@ -12,4 +12,6 @@ public interface ProductService {
     List<Map<String, Object>> findProductsByCategory(String category);
 
     List<Map<String, Object>> findProductByNewTime();
+
+    int updateProductByProductIdSelective(Product product);
 }

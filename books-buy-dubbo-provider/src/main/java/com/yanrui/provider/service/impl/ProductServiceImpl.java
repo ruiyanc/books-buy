@@ -2,6 +2,7 @@ package com.yanrui.provider.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yanrui.api.dao.ProductMapper;
+import com.yanrui.api.pojo.Product;
 import com.yanrui.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,5 +36,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Map<String, Object>> findProductByNewTime() {
         return productMapper.findProductByNewTime(UP);
+    }
+
+    @Override
+    public int updateProductByProductIdSelective(Product product) {
+        return productMapper.updateByPrimaryKeySelective(product);
     }
 }

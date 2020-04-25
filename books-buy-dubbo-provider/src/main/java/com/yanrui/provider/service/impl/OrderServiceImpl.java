@@ -6,6 +6,9 @@ import com.yanrui.api.pojo.Order;
 import com.yanrui.api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @program: books-buy
  * @description:
@@ -22,5 +25,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int addOrder(Order order) {
         return orderMapper.insert(order);
+    }
+
+    @Override
+    public List<Map<String, Object>> findAllOrderByUid(String uid) {
+        return orderMapper.findAllOrderByUid(uid);
     }
 }
