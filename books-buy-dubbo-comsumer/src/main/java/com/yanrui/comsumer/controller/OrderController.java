@@ -172,6 +172,7 @@ public class OrderController {
         return null;
     }
 
+    //用户查询全部订单
     @CrossOrigin
     @PostMapping(value = "findOrderInfo")
     public List<Map<String, Object>> findOrderInfo(@RequestBody Map<String,Object> map) {
@@ -203,5 +204,31 @@ public class OrderController {
             log.info("该收货人已存在无须添加！");
         }
         return shippingResult.getId();
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "findOrderItemByOrderNo")
+    public List<Map<String, Object>> findOrderItemByOrderNo(@RequestBody Map<String,Object> map) {
+        System.out.println(map);
+        String orderNo = map.get("orderNo").toString();
+        List<Map<String, Object>> list = orderItemService.findOrderItemsByOrderNo(orderNo);
+        log.info("该订单号详情商品为{}", list);
+        return list;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "findOrderByStatus")
+    public List<Map<String, Object>> findOrderByStatus(@RequestBody Map<String, Object> map) {
+        System.out.println(map);
+        String name = map.get("name").toString();
+        String uid = map.get("uid").toString();
+        List<Map<String, Object>> list;
+        if (name.equals("0")) {
+            list = orderService.findAllOrderByUid(uid);
+        } else {
+            list = orderService.findOrderByUidAndStatus(uid, name);
+        }
+        log.info("订单按状态查询为{}", list);
+        return list;
     }
 }

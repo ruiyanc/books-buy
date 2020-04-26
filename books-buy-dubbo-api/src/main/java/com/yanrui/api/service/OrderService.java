@@ -9,5 +9,7 @@ public interface OrderService {
 
     int addOrder(Order order);
 
-    List<Map<String, Object>> findAllOrderByUid(String uid);
+    List<Map<String,Object>> findAllOrderByUid(String uid);
+
+    List<Map<String,Object>> findOrderByUidAndStatus(String uid, String status);
 }

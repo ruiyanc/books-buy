@@ -7,6 +7,7 @@ import com.yanrui.api.service.CollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,5 +48,10 @@ public class CollectServiceImpl implements CollectService {
     @Override
     public Collect findCollectByUidAndProductId(Integer productId ,String uid) {
         return collectMapper.selectByUidAndProductId(productId, uid);
+    }
+
+    @Override
+    public List<Map<String, Object>> findAllCollectProduct(String uid) {
+        return collectMapper.findAllCollectByUid(uid);
     }
 }

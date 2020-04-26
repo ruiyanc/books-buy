@@ -18,5 +18,7 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
-    List<Map<String, Object>> findAllOrderByUid(String uid);
+    List<Map<String,Object>> findAllOrderByUid(String uid);
+
+    List<Map<String,Object>> findOrderByUidAndStatus(String uid, String status);
 }

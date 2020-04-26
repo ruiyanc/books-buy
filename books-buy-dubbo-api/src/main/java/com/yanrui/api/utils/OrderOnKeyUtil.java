@@ -19,6 +19,7 @@ public class OrderOnKeyUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String format = simpleDateFormat.format(new Date());
         Random random = new Random();
-        return format + random.nextInt(900000) + 100000;
+        String i = String.valueOf(random.nextInt(900000) + 100000);
+        return format + i;
     }
 }

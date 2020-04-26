@@ -9,4 +9,6 @@ public interface CommentService {
     Double avgCommentsByProductId(Integer productId);
 
     int totalCommentsByProductId(Integer productId);
+
+    List<Map<String, Object>> findAllCommentProduct(String uid);
 }

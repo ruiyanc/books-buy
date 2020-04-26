@@ -31,4 +31,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Map<String, Object>> findAllOrderByUid(String uid) {
         return orderMapper.findAllOrderByUid(uid);
     }
+
+    @Override
+    public List<Map<String, Object>> findOrderByUidAndStatus(String uid, String status) {
+        return orderMapper.findOrderByUidAndStatus(uid, status);
+    }
 }

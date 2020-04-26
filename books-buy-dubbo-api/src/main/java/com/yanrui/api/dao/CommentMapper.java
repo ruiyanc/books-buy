@@ -16,4 +16,6 @@ public interface CommentMapper {
     Double findAvgCommentsByProductId(Integer productId);
 
     int findCommentsByProductId(Integer productId);
+
+    List<Map<String, Object>> findAllCommentsByUid(String uid);
 }

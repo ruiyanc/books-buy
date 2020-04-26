@@ -133,4 +133,14 @@
     from comment
     where product_id=#{productId,jdbcType=INTEGER}
   </select>
+    <select id="findAllCommentsByUid" resultType="map" parameterType="string">
+      select comment.comment_id as commentId,product_id as productId,comment_info as commentInfo,score,
+             comment.create_time as createTime,comment.update_time as updateTime,
+             category_id as categoryId,category.name as categoryName,product.name as productName,author,subtitle,image,detail,
+             original_price as originalPrice,discount_price as discountPrice
+      from comment,product,category
+      where comment.product_id=product.id
+        and product.category_id=category.id
+        and uid=#{uid,jdbcType=VARCHAR}
+    </select>
 </mapper>

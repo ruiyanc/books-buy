@@ -108,7 +108,15 @@
         from collect
         where product_id=#{param1,jdbcType=INTEGER}
         and uid=#{param2,jdbcType=VARCHAR}
-
     </select>
+  <select id="findAllCollectByUid" parameterType="string" resultType="map">
+    select collect_id as collectId,product_id as productId,collect.create_time as createTime,collect.update_time as updateTime,
+      category_id as categoryId,category.name as categoryName,product.name as productName,author,subtitle,image,detail,
+      original_price as originalPrice,discount_price as discountPrice
+    from collect,product,category
+    where collect.product_id=product.id
+      and product.category_id=category.id
+    and uid=#{uid,jdbcType=VARCHAR}
+  </select>
 
 </mapper>

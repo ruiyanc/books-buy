@@ -20,11 +20,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, uid, shipping_id, payment, payment_type, postage, status, payment_time, 
+    id, order_no , uid, shipping_id , payment, payment_type , postage, status, payment_time,
     send_time, end_time, close_time, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from `order`
     where id = #{id,jdbcType=INTEGER}
@@ -35,14 +35,14 @@
   </delete>
   <insert id="insert" parameterType="com.yanrui.api.pojo.Order">
     insert into `order` (id, order_no, uid,
-      shipping_id, payment, payment_type, 
-      postage, status, payment_time, 
-      send_time, end_time, close_time, 
+      shipping_id, payment, payment_type,
+      postage, status, payment_time,
+      send_time, end_time, close_time,
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR},
-      #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=VARCHAR}, 
-      #{postage,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{paymentTime,jdbcType=TIMESTAMP}, 
-      #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
+      #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=VARCHAR},
+      #{postage,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{paymentTime,jdbcType=TIMESTAMP},
+      #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yanrui.api.pojo.Order">
@@ -199,11 +199,28 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findAllOrderByUid" parameterType="string" resultType="map">
-    select `order`.id as orderId, `order`.order_no as orderNo, payment,`order`.create_time as createTime,
-      product_id as productId,product_name as productName,product_image as image,current_unit_price as price,
-      quantity, total_price as totalPrice
-    from `order`,order_item
-    where `order`.order_no=order_item.order_no
+<!--    select `order`.id as orderId, `order`.order_no as orderNo, payment,`order`.create_time as createTime,-->
+<!--      product_id as productId,product_name as productName,product_image as image,current_unit_price as price,-->
+<!--      quantity, total_price as totalPrice-->
+<!--    from `order`,order_item-->
+<!--    where `order`.order_no=order_item.order_no-->
+<!--    and `order`.uid=#{uid,jdbcType=VARCHAR}-->
+    select `order`.id as orderId, order_no as orderNo, `order`.uid, `order`.shipping_id as shippingId,
+        payment, payment_type as paymentType, postage, `order`.status, payment_time as paymentTime, send_time as sendTime,
+        end_time as endTime, close_time as closeTime, `order`.create_time as createTime, `order`.update_time as updateTime,
+        shipping.name as shippingName, shipping.phone, shipping.address
+    from `order`, shipping
+    where `order`.shipping_id=shipping.id
     and `order`.uid=#{uid,jdbcType=VARCHAR}
+  </select>
+  <select id="findOrderByUidAndStatus" parameterType="map" resultType="map">
+    select `order`.id as orderId, order_no as orderNo, `order`.uid, `order`.shipping_id as shippingId,
+           payment, payment_type as paymentType, postage, `order`.status, payment_time as paymentTime, send_time as sendTime,
+           end_time as endTime, close_time as closeTime, `order`.create_time as createTime, `order`.update_time as updateTime,
+           shipping.name as shippingName, shipping.phone, shipping.address
+    from `order`, shipping
+    where `order`.shipping_id=shipping.id
+      and `order`.uid=#{param1,jdbcType=VARCHAR}
+      and `order`.status=#{param2,jdbcType=VARCHAR}
   </select>
 </mapper>

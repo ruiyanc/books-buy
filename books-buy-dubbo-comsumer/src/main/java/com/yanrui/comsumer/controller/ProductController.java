@@ -66,7 +66,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "findCollectByProductId")
-    public Map<String, Object> findCollectByProductId(@RequestBody Map<String,Object> map) {
+    public Map<String, Object> findCollectByProductId(@RequestBody Map<String, Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
         Integer productId = Integer.valueOf(map.get("productId").toString());
@@ -85,7 +85,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "findCommentByProductId")
-    public Map<String, Object> findCommentByProductId(@RequestBody Map<String,Object> map) {
+    public Map<String, Object> findCommentByProductId(@RequestBody Map<String, Object> map) {
         Integer productId = Integer.valueOf(map.get("productId").toString());
         Map<String, Object> hashMap = new HashMap<>();
         Double avgRate = commentService.avgCommentsByProductId(productId);
@@ -100,7 +100,9 @@ public class ProductController {
         return hashMap;
     }
 
-/**   普通用户根据条件查询在售商品*/
+    /**
+     * 普通用户根据条件查询在售商品
+     */
     @CrossOrigin
     @PostMapping(value = "findProductByLabel")
     public Map<String, Object> findProductByLabel(@RequestBody Map<String, Object> map) {
@@ -119,4 +121,21 @@ public class ProductController {
         return hashMap;
     }
 
+    @CrossOrigin
+    @PostMapping(value = "findAnyThingsBy")
+    @Cacheable(value = "anyThings", key = "#map.get('name')+':'+#map.get('uid')")
+    public List<Map<String, Object>> findAnyThingsBy(@RequestBody Map<String, Object> map) {
+        System.out.println(map);
+        String name = map.get("name").toString();
+        String uid = map.get("uid").toString();
+        List<Map<String, Object>> list = null;
+        if (name.equals("collect")) {
+            list = collectService.findAllCollectProduct(uid);
+            log.info("当前用户的收藏商品为{}", list);
+        } else if (name.equals("comment")) {
+            list = commentService.findAllCommentProduct(uid);
+            log.info("当前用户评论了的商品为{}", list);
+        }
+        return list;
+    }
 }

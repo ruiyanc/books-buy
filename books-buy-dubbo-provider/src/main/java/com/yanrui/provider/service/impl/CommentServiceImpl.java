@@ -35,4 +35,9 @@ public class CommentServiceImpl implements CommentService {
     public int totalCommentsByProductId(Integer productId) {
         return commentMapper.findCommentsByProductId(productId);
     }
+
+    @Override
+    public List<Map<String, Object>> findAllCommentProduct(String uid) {
+        return commentMapper.findAllCommentsByUid(uid);
+    }
 }

@@ -2,6 +2,9 @@ package com.yanrui.api.dao;
 
 import com.yanrui.api.pojo.Collect;
 
+import java.util.List;
+import java.util.Map;
+
 public interface CollectMapper {
 
     int insert(Collect record);
@@ -15,4 +18,6 @@ public interface CollectMapper {
     Collect selectByUidAndProductId(Integer productId, String uid);
 
     int findCountsByProductId(Integer productId);
+
+    List<Map<String, Object>> findAllCollectByUid(String uid);
 }

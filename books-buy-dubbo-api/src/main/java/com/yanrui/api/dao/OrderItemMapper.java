@@ -2,6 +2,9 @@ package com.yanrui.api.dao;
 
 import com.yanrui.api.pojo.OrderItem;
 
+import java.util.List;
+import java.util.Map;
+
 public interface OrderItemMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +17,6 @@ public interface OrderItemMapper {
     int updateByPrimaryKeySelective(OrderItem record);
 
     int updateByPrimaryKey(OrderItem record);
+
+    List<Map<String,Object>> selectOrderItemByOrderNo(String orderNo);
 }
