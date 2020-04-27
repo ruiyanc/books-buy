@@ -20,4 +20,5 @@ public interface CartMapper {
 
     List<Map<String, Object>> findProductByUid(String uid);
 
+    Cart selectCartByUidAndProductId(String uid, Integer productId);
 }

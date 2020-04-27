@@ -12,4 +12,6 @@ public interface CartService {
     List<Map<String, Object>> findCartByUid(String uid);
 
     int delCartByPrimaryKey(Integer id);
+
+    Cart selectCartByUidAndProductId(String uid, Integer productId);
 }

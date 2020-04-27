@@ -25,8 +25,14 @@ public class CartServiceImpl implements CartService {
     @Override
     public int insert(Map<String, Object> map) {
         String uid = map.get("uid").toString();
-        Integer quantity = Integer.valueOf(map.get("quantity").toString());
+        Integer quantity = (Integer) map.get("quantity");
+        if (quantity == null) {
+            quantity = 1;
+        }
         Integer productId = Integer.valueOf(map.get("productId").toString());
+        if (cartMapper.selectCartByUidAndProductId(uid, productId) != null) {
+            return 0;
+        }
         Cart cart = new Cart();
         cart.setId(null);
         cart.setProductId(productId);
@@ -45,5 +51,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public int delCartByPrimaryKey(Integer id) {
         return cartMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public Cart selectCartByUidAndProductId(String uid, Integer productId) {
+        return cartMapper.selectCartByUidAndProductId(uid, productId);
     }
 }

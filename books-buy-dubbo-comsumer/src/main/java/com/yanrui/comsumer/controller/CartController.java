@@ -46,6 +46,9 @@ public class CartController {
             hashMap.put("code", 200);
             hashMap.put("message", message);
             log.info(message);
+        } else if (i == 0) {
+            hashMap.put("code", 400);
+            hashMap.put("message", "此商品已存在购物车中，无须重复添加！！");
         } else {
             message = "添加购物车失败！！";
             hashMap.put("code", 400);

@@ -3,14 +3,11 @@ package com.yanrui.comsumer.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.base.Strings;
 import com.yanrui.api.pojo.Collect;
-import com.yanrui.api.service.CartService;
 import com.yanrui.api.service.CollectService;
 import com.yanrui.api.service.CommentService;
 import com.yanrui.api.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +45,7 @@ public class ProductController {
 
     @CrossOrigin
     @PostMapping(value = "addOrDeleteCollectByProductId")
+    @CacheEvict(value = "anyThings", key = "'collect:'+#map.get('uid')")
     public Map<String, Object> addOrDeleteCollectByProductId(@RequestBody Map<String, Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -131,6 +129,13 @@ public class ProductController {
         List<Map<String, Object>> list = null;
         if (name.equals("collect")) {
             list = collectService.findAllCollectProduct(uid);
+            for (Map<String,Object> objectMap: list) {
+                Integer productId = (Integer) objectMap.get("productId");
+                int count = collectService.findCountByProductId(productId);
+                objectMap.put("collects", count);
+                int i = commentService.totalCommentsByProductId(productId);
+                objectMap.put("comments", i);
+            }
             log.info("当前用户的收藏商品为{}", list);
         } else if (name.equals("comment")) {
             list = commentService.findAllCommentProduct(uid);

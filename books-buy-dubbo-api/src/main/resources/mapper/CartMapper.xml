@@ -12,7 +12,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, uid, product_id, quantity, create_time, update_time
+    id, uid, product_id as productId, quantity, create_time as createTime, update_time as updateTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -112,5 +112,11 @@
     where cart.product_id=product.id
      and uid=#{uid,jdbcType=VARCHAR}
   </select>
+    <select id="selectCartByUidAndProductId" resultType="com.yanrui.api.pojo.Cart" parameterType="map">
+      select <include refid="Base_Column_List"/>
+      from cart
+      where uid=#{param1,jdbcType=VARCHAR}
+      and product_id = #{param2,jdbcType=INTEGER}
+    </select>
 
 </mapper>
