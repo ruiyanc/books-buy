@@ -12,4 +12,8 @@ public interface OrderService {
     List<Map<String,Object>> findAllOrderByUid(String uid);
 
     List<Map<String,Object>> findOrderByUidAndStatus(String uid, String status);
+
+    int orderCancel(Map<String,Object> map);
+
+    int orderPayment(Map<String, Object> map);
 }

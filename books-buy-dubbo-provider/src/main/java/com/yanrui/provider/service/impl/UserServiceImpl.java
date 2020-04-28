@@ -53,11 +53,17 @@ public class UserServiceImpl implements UserService {
         String role = map.get("role").toString();
         User user = new User();
         user.setUid(uid);
+        user.setUpdateTime(new Date());
         if ("1".equals(role)) {
             user.setRole("2");
         } else {
             user.setRole("1");
         }
+        return userMapper.updateBySelective(user);
+    }
+
+    @Override
+    public int updateUserInfo(User user) {
         return userMapper.updateBySelective(user);
     }
 }

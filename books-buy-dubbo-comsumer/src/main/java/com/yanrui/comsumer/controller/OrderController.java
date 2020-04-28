@@ -56,7 +56,7 @@ public class OrderController {
         String status = map.get("status").toString();
         Map<String, Object> productDetailMap = (Map<String, Object>) map.get("productDetails");
         System.out.println(productDetailMap);
-        BigDecimal discountPrice = BigDecimal.valueOf((double)productDetailMap.get("discountPrice"));
+        BigDecimal discountPrice = BigDecimal.valueOf(Double.parseDouble(productDetailMap.get("discountPrice").toString()));
         BigDecimal totalPrice = discountPrice.multiply(BigDecimal.valueOf(quantity));
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderNo(orderOn);
@@ -128,9 +128,9 @@ public class OrderController {
             orderItem.setProductId((Integer) productDetailMap.get("productId"));
             orderItem.setProductImage(productDetailMap.get("image").toString());
             orderItem.setProductName(productDetailMap.get("name").toString());
-            orderItem.setCurrentUnitPrice(BigDecimal.valueOf((double)productDetailMap.get("discountPrice")));
+            orderItem.setCurrentUnitPrice(BigDecimal.valueOf(Double.parseDouble(productDetailMap.get("discountPrice").toString())));
             orderItem.setQuantity((Integer) productDetailMap.get("quantity"));
-            orderItem.setTotalPrice(BigDecimal.valueOf((double)productDetailMap.get("goodTotal")));
+            orderItem.setTotalPrice(BigDecimal.valueOf(Double.parseDouble(productDetailMap.get("goodTotal").toString())));
             orderItem.setCreateTime(new Date());
             orderItem.setUpdateTime(new Date());
             int stock = (Integer) productDetailMap.get("stock") - (Integer) productDetailMap.get("quantity") ;
@@ -230,5 +230,40 @@ public class OrderController {
         }
         log.info("订单按状态查询为{}", list);
         return list;
+    }
+
+//    用户删除订单
+    @CrossOrigin
+    @PostMapping(value = "delOrder")
+    public Map<String, Object> delOrder(@RequestBody Map<String, Object> map) {
+        System.out.println(map);
+        Map<String, Object> hashMap = new HashMap<>();
+        Map<String,Object> orderMap = (Map<String, Object>) map.get("order");
+        int i = orderService.orderCancel(orderMap);
+        if (i > 0) {
+            log.info("取消订单成功！");
+            hashMap.put("code", 200);
+            hashMap.put("message", "删除订单成功！");
+        } else {
+            hashMap.put("code", 400);
+            hashMap.put("message", "删除失败，系统故障！");
+        }
+        return hashMap;
+    }
+
+    //    用户付款
+    @CrossOrigin
+    @PostMapping(value = "paymentOrder")
+    public Map<String, Object> paymentOrder(@RequestBody Map<String,Object> map) {
+        System.out.println(map);
+        Map<String, Object> hashMap = new HashMap<>();
+        Map<String,Object> orderMap = (Map<String, Object>) map.get("order");
+        int i = orderService.orderPayment(orderMap);
+        if (i > 0) {
+            log.info("订单付款成功！");
+            hashMap.put("code", 200);
+            hashMap.put("message", "订单付款成功！");
+        }
+        return hashMap;
     }
 }

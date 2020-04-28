@@ -15,4 +15,5 @@ public interface UserMapper {
     int updateBySelective(User record);
 
     User queryUserByUsernameOrPhone(String usernameOrPhone);
+
 }

@@ -13,4 +13,6 @@ public interface UserService {
     List<User> findAll();
 
     int updateUserByRole(Map<String,Object> map);
+
+    int updateUserInfo(User user);
 }

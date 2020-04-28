@@ -4,14 +4,15 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.yanrui.api.enums.ResultEnum;
 import com.yanrui.api.pojo.User;
 import com.yanrui.api.service.UserService;
+import com.yanrui.api.utils.BeansUtil;
+import com.yanrui.api.utils.StringToDateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author: yanrui
@@ -73,6 +74,41 @@ public class UserController {
             log.error("注册失败!数据库新增失败!");
             hashMap.put("code", 400);
             hashMap.put("message", message);
+        }
+        return hashMap;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "updateUserInfo")
+    public Map<String, Object> updateUserInfo(@RequestBody Map<String, Object> map) {
+        System.out.println(map);
+        Map<String, Object> hashMap = new HashMap<>();
+        Calendar calendar = Calendar.getInstance();
+        Map<String,Object> userMap = (Map<String, Object>) map.get("user");
+        String time = StringToDateUtil.stringToDate(userMap.get("createTime").toString());
+        Date createTime = new Date();
+        try {
+            createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
+            calendar.setTime(createTime);
+            calendar.add(Calendar.HOUR, 8);
+            createTime = calendar.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        User user = new User();
+        BeansUtil.populate(user, userMap);
+        user.setCreateTime(createTime);
+        user.setUpdateTime(new Date());
+        int i = userService.updateUserInfo(user);
+        if (i > 0) {
+            User user1 = userService.findUsernameOrPhone(user.getUsername());
+            hashMap.put("code", 200);
+            hashMap.put("user", user1);
+            hashMap.put("message", "修改信息成功！");
+            log.info("用户修改信息成功！");
+        } else {
+            hashMap.put("code", 400);
+            hashMap.put("message", "修改信息失败！");
         }
         return hashMap;
     }
