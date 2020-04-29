@@ -143,4 +143,10 @@
         and product.category_id=category.id
         and uid=#{uid,jdbcType=VARCHAR}
     </select>
+  <select id="selectByUidAndProductId" parameterType="map" resultType="com.yanrui.api.pojo.Comment">
+    select <include refid="Base_Column_List"/>
+    from comment
+    where uid=#{uid,jdbcType=VARCHAR}
+    and product_id=#{productId,jdbcType=INTEGER}
+  </select>
 </mapper>

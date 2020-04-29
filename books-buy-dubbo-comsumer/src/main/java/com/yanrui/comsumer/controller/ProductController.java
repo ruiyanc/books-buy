@@ -3,6 +3,7 @@ package com.yanrui.comsumer.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.base.Strings;
 import com.yanrui.api.pojo.Collect;
+import com.yanrui.api.pojo.Comment;
 import com.yanrui.api.service.CollectService;
 import com.yanrui.api.service.CommentService;
 import com.yanrui.api.service.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,4 +145,24 @@ public class ProductController {
         }
         return list;
     }
+
+    @CrossOrigin
+    @PostMapping(value = "addProductComment")
+    @CacheEvict(value = "anyThings", key = "'comment:'+#map.get('uid')")
+    public Map<String, Object> addProductComment(@RequestBody Map<String,Object> map) {
+        System.out.println(map);
+        Map<String, Object> hashMap = new HashMap<>();
+        int i = commentService.addComment(map);
+        if (i > 0) {
+            log.info("添加评价成功！");
+            hashMap.put("code", 200);
+            hashMap.put("message", "评价该商品成功！");
+        } else {
+            hashMap.put("code", 400);
+            hashMap.put("message", "此商品已评价，无须重复评价！");
+        }
+        return hashMap;
+    }
+
+
 }

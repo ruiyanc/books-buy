@@ -20,7 +20,7 @@ public class Order implements Serializable {
 
     private String paymentType;
 
-    private Integer postage;
+    private Integer score;
 
     private String status;
 

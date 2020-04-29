@@ -22,6 +22,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final String CANCEL = "0";
     private final String PAYMENT = "2";
+    private final String FINISH = "3";
 
     @Autowired
     private OrderMapper orderMapper;
@@ -59,4 +60,5 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(PAYMENT);
         return orderMapper.updateByPrimaryKeySelective(order);
     }
+
 }

@@ -9,7 +9,7 @@
       <arg column="shipping_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="payment" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="payment_type" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="postage" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="score" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="payment_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="send_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -20,7 +20,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no , uid, shipping_id , payment, payment_type , postage, status, payment_time,
+    id, order_no , uid, shipping_id , payment, payment_type , score, status, payment_time,
     send_time, end_time, close_time, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -36,12 +36,12 @@
   <insert id="insert" parameterType="com.yanrui.api.pojo.Order">
     insert into `order` (id, order_no, uid,
       shipping_id, payment, payment_type,
-      postage, status, payment_time,
+      score, status, payment_time,
       send_time, end_time, close_time,
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR},
       #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=VARCHAR},
-      #{postage,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{paymentTime,jdbcType=TIMESTAMP},
+      #{score,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{paymentTime,jdbcType=TIMESTAMP},
       #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -66,8 +66,8 @@
       <if test="paymentType != null">
         payment_type,
       </if>
-      <if test="postage != null">
-        postage,
+      <if test="score != null">
+        score,
       </if>
       <if test="status != null">
         status,
@@ -110,8 +110,8 @@
       <if test="paymentType != null">
         #{paymentType,jdbcType=VARCHAR},
       </if>
-      <if test="postage != null">
-        #{postage,jdbcType=INTEGER},
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -154,8 +154,8 @@
       <if test="paymentType != null">
         payment_type = #{paymentType,jdbcType=VARCHAR},
       </if>
-      <if test="postage != null">
-        postage = #{postage,jdbcType=INTEGER},
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
@@ -188,7 +188,7 @@
       shipping_id = #{shippingId,jdbcType=INTEGER},
       payment = #{payment,jdbcType=DECIMAL},
       payment_type = #{paymentType,jdbcType=VARCHAR},
-      postage = #{postage,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
       payment_time = #{paymentTime,jdbcType=TIMESTAMP},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
@@ -206,16 +206,17 @@
 <!--    where `order`.order_no=order_item.order_no-->
 <!--    and `order`.uid=#{uid,jdbcType=VARCHAR}-->
     select `order`.id as orderId, order_no as orderNo, `order`.uid, `order`.shipping_id as shippingId,
-        payment, payment_type as paymentType, postage, `order`.status, payment_time as paymentTime, send_time as sendTime,
+        payment, payment_type as paymentType, score, `order`.status, payment_time as paymentTime, send_time as sendTime,
         end_time as endTime, close_time as closeTime, `order`.create_time as createTime, `order`.update_time as updateTime,
         shipping.name as shippingName, shipping.phone, shipping.address
     from `order`, shipping
     where `order`.shipping_id=shipping.id
+    and `order`.status!='0'
     and `order`.uid=#{uid,jdbcType=VARCHAR}
   </select>
   <select id="findOrderByUidAndStatus" parameterType="map" resultType="map">
     select `order`.id as orderId, order_no as orderNo, `order`.uid, `order`.shipping_id as shippingId,
-           payment, payment_type as paymentType, postage, `order`.status, payment_time as paymentTime, send_time as sendTime,
+           payment, payment_type as paymentType, score, `order`.status, payment_time as paymentTime, send_time as sendTime,
            end_time as endTime, close_time as closeTime, `order`.create_time as createTime, `order`.update_time as updateTime,
            shipping.name as shippingName, shipping.phone, shipping.address
     from `order`, shipping

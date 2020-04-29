@@ -5,10 +5,7 @@ import com.yanrui.api.pojo.Order;
 import com.yanrui.api.pojo.OrderItem;
 import com.yanrui.api.pojo.Product;
 import com.yanrui.api.pojo.Shipping;
-import com.yanrui.api.service.OrderItemService;
-import com.yanrui.api.service.OrderService;
-import com.yanrui.api.service.ProductService;
-import com.yanrui.api.service.ShippingService;
+import com.yanrui.api.service.*;
 import com.yanrui.api.utils.BeansUtil;
 import com.yanrui.api.utils.OrderOnKeyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +39,11 @@ public class OrderController {
 
     @Reference(version = "1.0.0")
     private ProductService productService;
+
+    @Reference(version = "1.0.0")
+    private CommentService commentService;
+
+
 
     //    首页单个购买
     @CrossOrigin
@@ -266,4 +268,5 @@ public class OrderController {
         }
         return hashMap;
     }
+
 }

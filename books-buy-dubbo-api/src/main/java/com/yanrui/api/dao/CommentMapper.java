@@ -9,6 +9,8 @@ public interface CommentMapper {
 
     int insert(Comment record);
 
+    Comment selectByUidAndProductId(String uid, Integer productId);
+
     Comment selectByPrimaryKey(Integer id);
 
     List<Map<String, Object>> findCommentAndUserByProductId(Integer productId);
