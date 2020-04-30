@@ -183,6 +183,14 @@
     from product, category
     where product.category_id = category.id
   </select>
+  <select id="findAllProductByStatus" resultType="map">
+    select product.id as id, category.name as category, product.name, product.author, product.subtitle,
+           product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,
+           product.stock, product.status, product.create_time as createTime, product.update_time as updateTime
+    from product, category
+    where product.category_id = category.id
+    and product.status=#{status,jdbcType=VARCHAR}
+  </select>
   <select id="findAllProductByCategory" resultType="map" parameterType="map">
     select product.id as id, category.name as category, product.name, product.author, product.subtitle,
            product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,
@@ -191,7 +199,7 @@
     where product.category_id = category.id
     and product.status=#{param1,jdbcType=VARCHAR}
     and category.name=#{param2,jdbcType=VARCHAR}
-    limit 8
+    limit 12
   </select>
 
   <select id="findAllProductSpice" parameterType="string" resultType="map">
@@ -207,17 +215,17 @@
     from product
     where status=#{status,jdbcType=VARCHAR}
     order by create_time desc
-    limit 8
+    limit 12
   </select>
-
-  <!--  <select id="findAllProductPage" parameterType="integer" resultType="map">-->
-<!--    select product.id as id, category.name as category, product.name, product.author, product.subtitle,-->
-<!--           product.image, product.detail, product.original_price as originalPrice, product.discount_price as discountPrice,-->
-<!--           product.stock, product.status, product.create_time as createTime, product.update_time as updateTime-->
-<!--    from product, category-->
-<!--    where product.category_id = category.id-->
-<!--    and id > #{param1,jdbcType=INTEGER}-->
-<!--    ORDER BY id ASC-->
-<!--    limit #{param2,jdbcType=INTEGER}-->
-<!--  </select>-->
+  <select id="findProductByOrderItemDesc" parameterType="string" resultType="map">
+    select <include refid="Base_Column_List"/>
+    from product
+    where status=#{status,jdbcType=VARCHAR}
+      and product.id in (select order_item.product_id
+                         from order_item,product
+                         where order_item.product_id=product.id
+                         group by order_item.product_id
+                         order by count(*) desc)
+    limit 10
+  </select>
 </mapper>

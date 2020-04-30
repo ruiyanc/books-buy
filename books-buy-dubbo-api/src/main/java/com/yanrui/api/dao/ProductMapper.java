@@ -20,6 +20,8 @@ public interface ProductMapper {
 
     List<Map<String,Object>> findAllProduct();
 
+    List<Map<String,Object>> findAllProductByStatus(String status);
+
 //    按打折的升序排列
     List<Map<String,Object>> findAllProductSpice(String status);
 
@@ -27,4 +29,7 @@ public interface ProductMapper {
     List<Map<String,Object>> findAllProductByCategory(String status, String category);
 
     List<Map<String,Object>> findProductByNewTime(String status);
+
+    List<Map<String,Object>> findProductByOrderItemDesc(String status);
+
 }

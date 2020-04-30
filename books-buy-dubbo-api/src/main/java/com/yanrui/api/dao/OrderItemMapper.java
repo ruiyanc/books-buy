@@ -19,4 +19,5 @@ public interface OrderItemMapper {
     int updateByPrimaryKey(OrderItem record);
 
     List<Map<String,Object>> selectOrderItemByOrderNo(String orderNo);
+
 }

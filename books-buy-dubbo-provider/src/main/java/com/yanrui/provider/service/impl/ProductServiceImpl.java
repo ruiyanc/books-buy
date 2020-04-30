@@ -29,6 +29,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Map<String, Object>> initProductAll() {
+        return productMapper.findAllProductByStatus(UP);
+    }
+
+    @Override
     public List<Map<String, Object>> findProductsByCategory(String category) {
         return productMapper.findAllProductByCategory(UP, category);
     }
@@ -41,5 +46,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int updateProductByProductIdSelective(Product product) {
         return productMapper.updateByPrimaryKeySelective(product);
+    }
+
+    @Override
+    public List<Map<String, Object>> findProductByOrderItem() {
+        return productMapper.findProductByOrderItemDesc(UP);
     }
 }

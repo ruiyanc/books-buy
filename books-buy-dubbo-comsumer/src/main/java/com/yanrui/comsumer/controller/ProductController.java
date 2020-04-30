@@ -46,6 +46,22 @@ public class ProductController {
     }
 
     @CrossOrigin
+    @GetMapping(value = "findProductByOrderItem")
+    public List<Map<String, Object>> findProductByOrderItem() {
+        List<Map<String, Object>> list = productService.findProductByOrderItem();
+        log.info("查询所有在售商品并按销量排序,{}", list);
+        return list;
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "initProductAll")
+    public List<Map<String, Object>> initProductAll() {
+        List<Map<String, Object>> list = productService.initProductAll();
+        log.info("查询所有在售商品成功,{}", list);
+        return list;
+    }
+
+    @CrossOrigin
     @PostMapping(value = "addOrDeleteCollectByProductId")
     @CacheEvict(value = "anyThings", key = "'collect:'+#map.get('uid')")
     public Map<String, Object> addOrDeleteCollectByProductId(@RequestBody Map<String, Object> map) {
