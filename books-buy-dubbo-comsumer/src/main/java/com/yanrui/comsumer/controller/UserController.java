@@ -64,16 +64,23 @@ public class UserController {
         Map<String, Object> hashMap = new HashMap<>();
         System.out.println(map);
         Map<String,Object> ruleForm =  (Map<String, Object>) map.get("ruleForm");
-        int i = userService.addUser(ruleForm);
-        if (i > 0) {
-            log.info("注册成功!!");
-            hashMap.put("code", 200);
-            hashMap.put("message", "success");
+        String phone = ruleForm.get("phone").toString();
+        String username = ruleForm.get("username").toString();
+        if (userService.findUsernameOrPhone(phone) == null && userService.findUsernameOrPhone(username) == null) {
+            int i = userService.addUser(ruleForm);
+            if (i > 0) {
+                log.info("注册成功!!");
+                hashMap.put("code", 200);
+                hashMap.put("message", "success");
+            } else {
+                String message = "注册失败";
+                log.error("注册失败!数据库新增失败!");
+                hashMap.put("code", 400);
+                hashMap.put("message", message);
+            }
         } else {
-            String message = "注册失败";
-            log.error("注册失败!数据库新增失败!");
             hashMap.put("code", 400);
-            hashMap.put("message", message);
+            hashMap.put("message", "用户名已存在或手机号已注册，请直接登录");
         }
         return hashMap;
     }

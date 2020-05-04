@@ -9,6 +9,8 @@ import com.yanrui.api.service.*;
 import com.yanrui.api.utils.BeansUtil;
 import com.yanrui.api.utils.OrderOnKeyUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -48,6 +50,7 @@ public class OrderController {
     //    首页单个购买
     @CrossOrigin
     @PostMapping(value = "addProductToOrder")
+    @CacheEvict(cacheNames = "adminProduct", key = "1")
     public Map<String, Object> indexAddProductToOrder(@RequestBody Map<String, Object> map) {
         System.out.println(map);
         Map<String, Object> hashMap = new HashMap<>();
@@ -112,6 +115,7 @@ public class OrderController {
 
     @CrossOrigin
     @PostMapping(value = "cartAddProductToOrder")
+    @CacheEvict(cacheNames = "adminProduct", key = "1")
     public Map<String, Object> cartAddProductToOrder(@RequestBody Map<String, Object> map) {
         Map<String, Object> hashMap = new HashMap<>();
         System.out.println(map);
